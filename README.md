@@ -39,6 +39,19 @@ password: susiairtest
 | `JWT_SECRET` | Yes in production | Secret for signed login tokens. |
 | `FRONTEND_ORIGIN` | Yes in production | Public Nuxt application URL allowed by CORS. |
 
+## Main technical choices
+
+- **JSON fixtures loaded at startup:** the brief does not require persistence, so the API keeps the supplied mock data in memory and avoids an unnecessary database.
+- **JWT with a global guard:** every route is protected by default; only `POST /auth/login` is marked public. This makes accidental exposure of a future endpoint less likely.
+- **DTO validation and one exception filter:** request validation happens at the HTTP boundary and every failure has the same response shape.
+- **Server-side rolling windows:** `rollingWindowBluffing()` calculates each chart point in NestJS, so the client only renders trusted summary data.
+
+## With more time
+
+- Add HTTP integration tests for each authenticated endpoint and error response.
+- Replace the hardcoded demo user with a user store and refresh-token flow.
+- Add structured logging, health checks, rate limiting, and API documentation for production operations.
+
 ## Deploy with Dokploy
 
 1. Create an Application service from this repository.
